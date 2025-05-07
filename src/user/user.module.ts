@@ -1,8 +1,17 @@
 import { Module } from '@nestjs/common';
 import { UserController } from './user/user.controller';
 import { UserService } from './user/user.service';
-import { Connection, MongoDBConnection, MySQLConnection } from './connection/connection';
+import {
+  Connection,
+  MongoDBConnection,
+  MySQLConnection,
+} from './connection/connection';
 import { mailSerivce, MailService } from './mail/mail.service';
+import {
+  createUserRepository,
+  UserRepository,
+} from './user-repository/user-repository';
+import { MemberService } from './member/member.service';
 
 @Module({
   controllers: [UserController],
@@ -10,12 +19,23 @@ import { mailSerivce, MailService } from './mail/mail.service';
     UserService,
     {
       provide: Connection,
-      useClass: process.env.DATABASE == 'mysql' ? MySQLConnection : MongoDBConnection
+      useClass:
+        process.env.DATABASE == 'mysql' ? MySQLConnection : MongoDBConnection,
     },
     {
       provide: MailService,
       useValue: mailSerivce,
     },
+    {
+      provide: 'EmailService',
+      useExisting: MailService,
+    },
+    {
+      provide: UserRepository,
+      useFactory: createUserRepository,
+      inject: [Connection],
+    },
+    MemberService,
   ],
 })
 export class UserModule {}
