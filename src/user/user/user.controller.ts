@@ -12,6 +12,9 @@ import {
   Res,
   Inject,
   UseFilters,
+  HttpException,
+  ParseIntPipe,
+  Body,
 } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { UserService } from './user.service';
@@ -21,6 +24,11 @@ import { UserRepository } from '../user-repository/user-repository';
 import { MemberService } from '../member/member.service';
 import { User } from 'generated/prisma';
 import { ValidationFilter } from 'src/validation/validation.filter';
+import {
+  LoginUserRequest,
+  loginUserRequestValidation,
+} from 'src/model/login.model';
+import { ValidationPipe } from 'src/validation/validation.pipe';
 
 @Controller('/api/users')
 export class UserController {
@@ -32,6 +40,15 @@ export class UserController {
     private userRepository: UserRepository,
     private memberService: MemberService,
   ) {}
+  
+  @Post('/login')
+  @UseFilters(ValidationFilter)
+  login(
+    @Body(new ValidationPipe(loginUserRequestValidation))
+    request: LoginUserRequest,
+  ) {
+    return `Hello ${request.username}`;
+  }
   @Get('/connection')
   async getConnection(): Promise<string> {
     this.mailSerivce.send();
@@ -43,7 +60,7 @@ export class UserController {
   }
 
   @Get('/hello')
-  @UseFilters(ValidationFilter)
+  // @UseFilters(ValidationFilter)
   async sayHello(@Query('name') name: string): Promise<string> {
     return this.service.sayHello(name);
   }
@@ -53,6 +70,15 @@ export class UserController {
     @Query('firstname') firstName: string,
     @Query('lastname') lastName?: string,
   ): Promise<User> {
+    if (!firstName) {
+      throw new HttpException(
+        {
+          code: 400,
+          errors: 'firstname is required',
+        },
+        400,
+      );
+    }
     return this.userRepository.save(firstName, lastName);
   }
 
@@ -99,7 +125,8 @@ export class UserController {
   }
 
   @Get('/:id')
-  get(@Param('id') id: string): string {
+  getById(@Param('id', ParseIntPipe) id: number): string {
+    console.info(id * 10);
     return `GET ${id}`;
   }
 }

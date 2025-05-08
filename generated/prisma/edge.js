@@ -128,7 +128,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "R:\\IMAM\\Project\\Nestjs\\training-nestjs\\generated\\prisma",
+      "value": "C:\\Users\\flash\\Documents\\Project\\NestTraining\\training\\generated\\prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -142,7 +142,7 @@ const config = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "R:\\IMAM\\Project\\Nestjs\\training-nestjs\\prisma\\schema.prisma",
+    "sourceFilePath": "C:\\Users\\flash\\Documents\\Project\\NestTraining\\training\\prisma\\schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
@@ -156,12 +156,11 @@ const config = {
     "db"
   ],
   "activeProvider": "mysql",
-  "postinstall": false,
   "inlineDatasources": {
     "db": {
       "url": {
         "fromEnvVar": "DATABASE_URL",
-        "value": null
+        "value": "mysql://root@localhost:3306/nestjs_training"
       }
     }
   },
