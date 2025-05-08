@@ -15,6 +15,7 @@ import {
   HttpException,
   ParseIntPipe,
   Body,
+  UsePipes,
 } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { UserService } from './user.service';
@@ -40,12 +41,13 @@ export class UserController {
     private userRepository: UserRepository,
     private memberService: MemberService,
   ) {}
-  
+
   @Post('/login')
+  @UsePipes(new ValidationPipe(loginUserRequestValidation))
   @UseFilters(ValidationFilter)
   login(
-    @Body(new ValidationPipe(loginUserRequestValidation))
-    request: LoginUserRequest,
+    @Query('name') name: string,
+    @Body() request: LoginUserRequest,
   ) {
     return `Hello ${request.username}`;
   }
