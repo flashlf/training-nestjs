@@ -14,7 +14,7 @@ export class UserRepository {
   }
 
   async save(firstName: string, lastName?: string): Promise<User> {
-    this.logger.info(`create user with ${firstName} ${lastName}`);
+    // this.logger.info(`create user with ${firstName} ${lastName}`);
     return this.prismaService.user.create({
       data: {
         first_name: firstName,
