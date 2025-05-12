@@ -12,6 +12,8 @@ async function bootstrap() {
   const logger = app.get(WINSTON_MODULE_NEST_PROVIDER);
   app.useLogger(logger);
   const configService = app.get(ConfigService);
+  const logger = app.get(WINSTON_MODULE_NEST_PROVIDER);
+  app.useLogger(logger);
   app.use(cookieParser('COOKIE_PASS'));
 
   app.set('views', __dirname + '/../views');

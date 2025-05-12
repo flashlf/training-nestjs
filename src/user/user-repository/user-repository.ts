@@ -1,7 +1,9 @@
 import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { User } from 'generated/prisma';
 import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston';
 import { PrismaService } from 'src/prisma/prisma/prisma.service';
+import { Logger } from 'winston';
 import { Logger } from 'winston';
 
 @Injectable()
