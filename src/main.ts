@@ -20,6 +20,9 @@ async function bootstrap() {
   app.engine('html', mustache());
   app.useGlobalFilters(new ValidationFilter());
   // app.useGlobalGuards(new RoleGuard(['admin', 'user']));
+
+  app.enableShutdownHooks();
+
   await app.listen(configService.get('PORT') ?? 3000);
 }
 bootstrap();
